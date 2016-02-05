@@ -4,6 +4,7 @@ exports.up = function(knex, Promise) {
     table.increments();
     table.string('first_name');
     table.string('last_name');
+    table.integer('alias_id').nullable();
   });
 };
 
