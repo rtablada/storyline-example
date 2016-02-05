@@ -1,5 +1,7 @@
 'use strict';
 
+// jscs: disable
+
 const Storyline = require('storyline');
 const Plot = require('storyline/bin/plot');
 const pg = require('knex')(require('./knexfile').development);
@@ -17,6 +19,10 @@ class CreateUsers extends Plot {
 }
 
 class CreateAliases extends Plot {
+  get requirements() {
+    return ['create-users'];
+  }
+
   run(app) {
     return app.db('users').where(
       {first_name: 'Tony', last_name: 'Stark'}
