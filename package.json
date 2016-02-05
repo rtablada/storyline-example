@@ -4,16 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "test-dev": "./node_modules/.bin/mocha tests --watch --reporter spec"
+    "test": "./node_modules/.bin/mocha tests --compilers js:babel-register --reporter spec",
+    "test-dev": "./node_modules/.bin/mocha tests --compilers js:babel-register --watch --reporter spec"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chai": "^3.5.0",
     "knex": "^0.9.0",
-    "mocha": "^2.4.5",
     "pg": "^4.4.4",
+    "storyline": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-preset-es2015-node5": "^1.1.2",
+    "babel-register": "^6.4.3",
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
     "sinon": "^1.17.3"
   }
 }

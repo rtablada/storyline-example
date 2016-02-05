@@ -1,15 +1,17 @@
-'use strict';
 /* globals it, describe, beforeEach, after, afterEach */
 
-const expect = require('chai').expect;
-const Storyline = require('storyline');
-const pg = require('knex')(require('../knexfile').development);
-const plotLoader = require('../plots/loader');
-const app = {db: pg};
+import { expect } from 'chai';
+import Storyline from 'storyline';
+import plotLoader from'../plots/loader';
+import knex from 'knex';
+import {development} from '../knexfile';
+
+const pg = knex(development);
+const app = { db: pg };
 
 const story = new Storyline(app);
 
-const UserGateway = require('../bin/gateways/user');
+import UserGateway from '../bin/gateways/user';
 
 plotLoader(story);
 
@@ -55,8 +57,8 @@ describe('User Gateway', () => {
       createdUser = user;
 
       return transaction('users').where({first_name: 'Peter'});
-    }).then((users) => {
-      expect(users[0]).to.deep.equal(createdUser);
+    }).then(([user]) => {
+      expect(user).to.deep.equal(createdUser);
       done();
     });
   });
