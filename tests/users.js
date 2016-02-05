@@ -29,7 +29,7 @@ describe('User Gateway', () => {
 
   beforeEach((done) => {
     pg.transaction((trx) => {
-      gateway = new UserGateway(pg);
+      gateway = new UserGateway(trx);
       transaction = trx;
 
       done();
@@ -44,6 +44,19 @@ describe('User Gateway', () => {
 
     gateway.findById(1).then((user) => {
       expect(user).to.deep.equal({id: 1, first_name: 'Tony', last_name: 'Stark', alias_id: 1});
+      done();
+    });
+  });
+
+  it('can create a user', (done) => {
+    let createdUser;
+
+    gateway.create({first_name: 'Peter', last_name: 'Parker'}).then((user) => {
+      createdUser = user;
+
+      return transaction('users').where({first_name: 'Peter'});
+    }).then((users) => {
+      expect(users[0]).to.deep.equal(createdUser);
       done();
     });
   });

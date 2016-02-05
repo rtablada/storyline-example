@@ -10,4 +10,10 @@ module.exports = class User {
       return users[0];
     });
   }
+
+  create(params) {
+    return this.connection('users').insert(params).returning('*').then((users) => {
+      return users[0];
+    });
+  }
 };
