@@ -19,13 +19,25 @@ after(() => {
 
 describe('User Gateway', () => {
   let gateway;
+  let transaction;
 
-  beforeEach((done) => {
+  before((done) => {
     story.run('create-aliases').then(() => {
-      gateway = new UserGateway(pg);
-
       done();
     });
+  });
+
+  beforeEach((done) => {
+    pg.transaction((trx) => {
+      gateway = new UserGateway(pg);
+      transaction = trx;
+
+      done();
+    }).catch(() => {});
+  });
+
+  afterEach((done) => {
+    transaction.rollback().then(() => done());
   });
 
   it('can grab a user by id', (done) => {

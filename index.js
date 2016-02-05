@@ -11,4 +11,10 @@ const story = new Storyline(app);
 
 plotLoader(story);
 
-story.run('create-aliases').then(pg.destroy);
+story.run('create-aliases').then(() => {
+  pg.transaction(function(trx) {
+    return trx.insert({names: 'Spiderman'}).into('aliases');
+  }).toString();
+
+  pg.destroy();
+});
